@@ -1,18 +1,18 @@
 <script setup>
-import {$http} from '@escook/request-miniprogram'
+
 import { onMounted, ref } from 'vue';
-import common from '/common/common.js'
-$http.baseUrl = 'https://api-hmugo-web.itheima.net'
+
+
 
 const swiperList = ref([])
 
 // 3. 获取轮播图数据的方法
 const  getSwiperList = async () => {
   // 3.1 发起请求
-  const {data} = await $http.get('/api/public/v1/home/swiperdata')
+  const {data} = await uni.$http.get('/api/public/v1/home/swiperdata')
   console.log(data)
   if(!data.meta.status === 200) {
-    return common.showMsg()
+    return uni.$showMsg()
   }
   swiperList.value = data.message
 }

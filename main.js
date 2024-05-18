@@ -2,6 +2,16 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import App from './App'
+
+Vue.config.productionTip = false
+
+App.mpType = 'app'
+
+const app = new Vue({
+    ...App
+})
+app.$mount()
+// #endif
 import { $http } from '@escook/request-miniprogram'
 
 uni.$http = $http
@@ -20,6 +30,7 @@ $http.afterRequest = function () {
   uni.hideLoading()
 }
 
+
 uni.$showMsg = function(title = '数据加载失败',duration = 1500) {
   uni.showToast({
     title,
@@ -27,17 +38,6 @@ uni.$showMsg = function(title = '数据加载失败',duration = 1500) {
     icon: 'none'
   })
 }
-
-Vue.config.productionTip = false
-
-App.mpType = 'app'
-
-const app = new Vue({
-    ...App
-})
-app.$mount()
-// #endif
-
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
 import App from './App.vue'
