@@ -13,6 +13,16 @@
       "path": "pages/my/my"
     }
   ],
+  "subPackages": [
+    {
+      "root": "subpkg",
+      "pages": [
+        {
+          "path" : "goods_detail/goods_detail"
+        }
+      ]
+    }
+  ],
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "黑马优购",
