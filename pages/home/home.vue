@@ -33,9 +33,6 @@ const navClickHandler = (item) => {
   }
 }
 
-const a = 'abcdefg'
-console.log(a.split('c'))
-
 const getFloorList = async () => {
   const {data} = await uni.$http.get('/api/public/v1/home/floordata')
   console.log(data,'我是楼层')
@@ -43,7 +40,7 @@ const getFloorList = async () => {
   
   data.message.forEach((item) => {
     item.product_list.forEach((pro)=>{
-      pro.navigator_url = '/subpkg/goods_detail/goods_detail?' + pro.navigator_url.split('?')[1]
+      pro.navigator_url = '/subpkg/goods_list/goods_list?' + pro.navigator_url.split('?')[1]
     })
   })
   floorList.value = data.message
@@ -92,7 +89,6 @@ onMounted(()=>{
             <image v-if="proIndex !== 0" :src="product.image_src" :style="{width: `${product.image_width}rpx`}" mode="widthFix"></image>
           </navigator>
         </view>
-        
       </view>
     </view>
   </view>
