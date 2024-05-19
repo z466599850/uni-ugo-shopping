@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 
 const navList = ref([])
 const swiperList = ref([])
+const floorList = ref([])
 
 // 3. 获取轮播图数据的方法
 const  getSwiperList = async () => {
@@ -32,10 +33,27 @@ const navClickHandler = (item) => {
   }
 }
 
+const a = 'abcdefg'
+console.log(a.split('c'))
+
+const getFloorList = async () => {
+  const {data} = await uni.$http.get('/api/public/v1/home/floordata')
+  console.log(data,'我是楼层')
+  if(!data.meta.status === 200) return uni.$showMsg
+  
+  data.message.forEach((item) => {
+    item.product_list.forEach((pro)=>{
+      pro.navigator_url = '/subpkg/goods_detail/goods_detail?' + pro.navigator_url.split('?')[1]
+    })
+  })
+  floorList.value = data.message
+  console.log(floorList.value)
+}
 
 onMounted(()=>{
   getSwiperList()
   getNavList()
+  getFloorList()
 })
 
 </script>
@@ -61,6 +79,24 @@ onMounted(()=>{
       <image :src="item.image_src" class="nav-image" />
     </view>
   </view>
+  <!-- 楼层区域 -->
+  <view class="floor-list">
+    <view class="floor-item" v-for="(item,index) in floorList" :key="index">
+      <image class="floor-title" :src="item.floor_title.image_src"></image>
+      <view class="floor-img-box">
+        <view class="left-img-box">
+          <image :src="item.product_list[0].image_src" mode="widthFix" :style="{width: `${item.product_list[0].image_width}rpx`}"></image>
+        </view>
+        <view class="right-img-box">
+          <navigator class="right-img-item" v-for="(product,proIndex) in item.product_list" :key="proIndex" :url="product.navigator_url">
+            <image v-if="proIndex !== 0" :src="product.image_src" :style="{width: `${product.image_width}rpx`}" mode="widthFix"></image>
+          </navigator>
+        </view>
+        
+      </view>
+    </view>
+  </view>
+
 
 </template>
 
@@ -84,7 +120,25 @@ swiper {
   .nav-image {
     height: 140rpx;
     width: 128rpx;
-  }
-  
+  } 
 }
+
+
+.floor-title {
+  height: 60rpx;
+  width: 100%;
+  display: flex;
+}
+.floor-img-box {
+  display: flex;
+  padding-left: 14rpx;
+}
+
+
+.right-img-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 </style>
