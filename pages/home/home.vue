@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-
+import mySearch from '../../components/mySearch/mySearch.vue';
 const navList = ref([])
 const swiperList = ref([])
 const floorList = ref([])
@@ -56,7 +56,9 @@ onMounted(()=>{
 </script>
 
 <template>
-
+  <view class="search-box">
+    <mySearch></mySearch>
+  </view>
   <swiper 
     indicator-dots
     autoplay
@@ -99,6 +101,12 @@ onMounted(()=>{
 
 
 <style lang="scss">
+.search-box {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  
+}
 swiper {
   height: 300rpx;
   

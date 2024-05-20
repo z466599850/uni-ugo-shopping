@@ -1,13 +1,15 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
+import mySearch from '/components/mySearch/mySearch.vue'
+
 const cateList = ref([])
 const cateChildrenList = ref([])
 const wh = ref(0)
 const active = ref(0)
 const scrollTop = ref(0)
 
-wh.value = uni.getSystemInfoSync().windowHeight
+wh.value = uni.getSystemInfoSync().windowHeight - 36
 
 const getCateList = async () => {
   const {data} = await uni.$http.get('/api/public/v1/categories')
@@ -21,9 +23,9 @@ const changeActive = (index) => {
   active.value = index
   cateChildrenList.value = cateList.value[index].children
   
-  scrollTop.value = scrollTop.value === 0 ? 1 : 0
-  
+  scrollTop.value = scrollTop.value === 0 ? 1 : 0 
 }
+
 
 onMounted(() => {
 
@@ -31,6 +33,7 @@ onMounted(() => {
 })
 </script>
 <template>
+  <mySearch></mySearch>
   <view class="cate-list">
     <view class="scroll-view-container">
       <!-- 左侧 -->
