@@ -1,8 +1,34 @@
 <script setup>
-import {onMounted, ref} from 'vue'
-import { useCartStore } from '../../stores/cart'
+import {onMounted, ref, watch} from 'vue'
+import { useCartStore } from '/stores'
 import {onLoad} from '@dcloudio/uni-app'
 const cartStore = useCartStore()
+const options =  ref(
+  [
+    {
+      icon: 'shop',
+      text: '店铺'
+    },
+    {
+      icon: 'cart',
+      text: '购物车',
+      info: 0
+    }
+])    
+const buttonGroup = ref(
+    // 右侧按钮组的配置对象
+  [{
+      text: '加入购物车',
+      backgroundColor: '#ff0000',
+      color: '#fff'
+    },
+    {
+      text: '立即购买',
+      backgroundColor: '#ffa200',
+      color: '#fff'
+    }
+])
+
 console.log(cartStore.add)
 const goodsInfo = ref([])
 
@@ -28,38 +54,10 @@ const preview = (i) => {
     })
 }
 
-
-const options =  ref(
-
-      [
-        {
-          icon: 'shop',
-          text: '店铺'
-        },
-        {
-          icon: 'cart',
-          text: '购物车',
-          info: 2
-        }
-      ])
-      
-const buttonGroup = ref(
-    // 右侧按钮组的配置对象
-    [{
-        text: '加入购物车',
-        backgroundColor: '#ff0000',
-        color: '#fff'
-      },
-      {
-        text: '立即购买',
-        backgroundColor: '#ffa200',
-        color: '#fff'
-      }
-    ])
-
 const onLeftbutton = (e) => {
   console.log(e,'左边')
-  if(e.content === '购物车') {
+  if(e.content.text === '购物车') {
+    console.log('你好')
     uni.switchTab({
       url: '/pages/cart/cart'
     })
@@ -68,14 +66,33 @@ const onLeftbutton = (e) => {
 
 const onRightbutton = (e) => {
   console.log(e,'右边')
+  if(e.content.text === '加入购物车') {
+    console.log(goodsInfo.value,'加入购物车')
+    console.log(cartStore.cartListTotal,'he')
+
+    cartStore.addCartList({id: goodsInfo.value.goods_id,price: goodsInfo.value.goods_price})
+    options.value[1].info = cartStore.cartListTotal
+    uni.$showMsg('加入购物车成功')
+  }
+  if(e.content.text === '立即购买') {
+    console.log('立即购买')
+  }
 }
 
+watch(cartStore.cartList.length,(value) => {
+  console.log(value)
+  // options.value[1].info = value
+})
 
 onLoad((options) => {
   console.log(options)
-
   getGoodsList(options.goods_id)
 })
+
+onMounted(() => {
+  options.value[1].info = cartStore.cartListTotal
+})
+
 
 </script>
 
@@ -109,7 +126,7 @@ onLoad((options) => {
      <!-- buttonGroup 右侧按钮的配置项 -->
      <!-- click 左侧按钮的点击事件处理函数 -->
      <!-- buttonClick 右侧按钮的点击事件处理函数 -->
-     <uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onLeftbutton" @buttonClick="onRightButton" />
+     <uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onLeftbutton" @buttonClick="onRightbutton" />
    </view>
 </template>
 
