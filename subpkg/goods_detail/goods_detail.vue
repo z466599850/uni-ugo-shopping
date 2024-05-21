@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref, watch} from 'vue'
 import { useCartStore } from '/stores'
-import {onLoad} from '@dcloudio/uni-app'
+import {onLoad ,onShow} from '@dcloudio/uni-app'
 const cartStore = useCartStore()
 const options =  ref(
   [
@@ -40,6 +40,7 @@ const getGoodsList = async (id) => {
   console.log(data)
   if(!data.meta.status === 200) return uni.$showMsg()
   data.message.goods_introduce = data.message.goods_introduce.replace(/<img /g, '<img style="display:block;" ').replace(/webp/g, 'jpg')
+  data.message.count = 1
   goodsInfo.value = data.message
 }
 
@@ -70,7 +71,7 @@ const onRightbutton = (e) => {
     console.log(goodsInfo.value,'加入购物车')
     console.log(cartStore.cartListTotal,'he')
 
-    cartStore.addCartList({id: goodsInfo.value.goods_id,price: goodsInfo.value.goods_price})
+    cartStore.addCartList(goodsInfo.value)
     options.value[1].info = cartStore.cartListTotal
     uni.$showMsg('加入购物车成功')
   }
@@ -79,19 +80,17 @@ const onRightbutton = (e) => {
   }
 }
 
-watch(cartStore.cartList.length,(value) => {
-  console.log(value)
-  // options.value[1].info = value
-})
-
 onLoad((options) => {
   console.log(options)
   getGoodsList(options.goods_id)
+
 })
 
-onMounted(() => {
+onShow(() => {
+  cartStore.setCartList()
   options.value[1].info = cartStore.cartListTotal
 })
+
 
 
 </script>

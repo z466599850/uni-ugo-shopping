@@ -12,6 +12,8 @@ const goodsInfo = ref({
 })
 const isShow = ref(false)
 
+
+
 const getGoodsList = async (cb) => {
   isShow.value = true
   const {data} = await uni.$http.get('/api/public/v1/goods/search',{
@@ -25,6 +27,13 @@ const getGoodsList = async (cb) => {
   goodsListTotal.value = data.message.total
   console.log(isShow.value)
 }
+
+const gotoDetail = (id) => {
+  uni.navigateTo({
+    url: `/subpkg/goods_detail/goods_detail?goods_id=${id}`
+  })
+}
+
 
 onPullDownRefresh(() => {
   goodsList.value = []
@@ -58,9 +67,9 @@ onReachBottom(() => {
 
 <template>
   <view class="goods-list">
-    <block v-for="goods in goodsList" :key="goods.goods_id">
-      <myGoods :goods="goods"></myGoods>
-    </block>
+    <view v-for="goods in goodsList" :key="goods.goods_id" @click="gotoDetail(goods.goods_id)">
+      <myGoods :goods="goods" ></myGoods>
+    </view>
   </view>
 </template>
 
