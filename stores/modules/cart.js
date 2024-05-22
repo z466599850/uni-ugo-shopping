@@ -31,7 +31,7 @@ export const useCartStore = defineStore('cart',() => {
   })
   
   const cartListPriceTotal = computed(() => {
-    return cartList.value.reduce((total,item) => total + (item.goods_price * item.goods.count), 0).toFixed(2)
+    return cartList.value.reduce((total,item) => total + (item.goods_price * item.goods_count), 0).toFixed(2)
   })
   
   const updateCartList = (value) => {
@@ -55,14 +55,12 @@ export const useCartStore = defineStore('cart',() => {
   }
   
   const setCartList = () => {
-    cartList.value = JSON.parse(uni.getStorageSync('ugo-carlist'))
+    if(uni.getStorageSync('ugo-carlist')) {
+      cartList.value = JSON.parse(uni.getStorageSync('ugo-carlist'))
+    }
+    
   }
   
-  watch('cartList',(value) => {
-    console.log(value,'我是本地存储')
-  },{
-    deep: true
-  })
 
   return {
     cartList,
