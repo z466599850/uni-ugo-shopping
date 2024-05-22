@@ -34,6 +34,13 @@
           {
             "navigationBarTitleText" : ""
           }
+        },
+        {
+          "path" : "settle/settle",
+          "style" : 
+          {
+            "navigationBarTitleText" : ""
+          }
         }
       ]
     }

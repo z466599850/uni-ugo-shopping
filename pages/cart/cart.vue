@@ -4,6 +4,7 @@ import {onMounted, ref} from 'vue'
 import {onShow} from '@dcloudio/uni-app'
 import myGoods from '../../components/myGoods/myGoods.vue';
 import myAddress from '../../components/myAddress/myAddress.vue';
+import mySettleVue from '../../components/mySettle/mySettle.vue';
 const cartStore = useCartStore()
 
 const radioChangeHandler = (e) => {
@@ -39,6 +40,7 @@ onMounted(() => {
 
 
 <template>
+<view class="cart-container">
   <view class="cart-address">
     <myAddress></myAddress>
   </view>
@@ -54,10 +56,15 @@ onMounted(() => {
     </uni-swipe-action-item>
     </block>
   </uni-swipe-action>
+  <mySettleVue></mySettleVue>
+</view>
  
 </template>
 
 <style lang="scss">
+.cart-container {
+  padding-bottom: 100rpx;
+}
 .cart-title {
   height: 80rpx;
   display: flex;
