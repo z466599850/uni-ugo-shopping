@@ -67,7 +67,7 @@ onReachBottom(() => {
 
 <template>
   <view class="goods-list">
-    <view v-for="goods in goodsList" :key="goods.goods_id" @click="gotoDetail(goods.goods_id)">
+    <view v-for="goods in goodsList" :key="goods.goods_id">
       <myGoods :goods="goods" ></myGoods>
     </view>
   </view>

@@ -16,8 +16,13 @@ export const useCartStore = defineStore('cart',() => {
       cartList.value.push(value)
     }
 
-    uni.setStorageSync('ugo-carlist',JSON.stringify(cartList.value))
-    console.log(cartList.value)
+    setStorage()
+    console.log(cartList.value) 
+  }
+  
+  const delCartList = (id) => {
+    cartList.value = cartList.value.filter(item => item.goods_id !== id)
+    setStorage()
     
   }
   
@@ -40,7 +45,7 @@ export const useCartStore = defineStore('cart',() => {
     if(item) {
       item.goods_state = value.goodsState
       
-      uni.setStorageSync('ugo-carlist',JSON.stringify(cartList.value))
+      setStorage()
     }
   }
   
@@ -50,7 +55,7 @@ export const useCartStore = defineStore('cart',() => {
     if(item) {
       item.goods_count = value.goodsNumber
       
-      uni.setStorageSync('ugo-carlist',JSON.stringify(cartList.value))
+      setStorage()
     }
   }
   
@@ -59,6 +64,10 @@ export const useCartStore = defineStore('cart',() => {
       cartList.value = JSON.parse(uni.getStorageSync('ugo-carlist'))
     }
     
+  }
+  
+  const setStorage = () => {
+    uni.setStorageSync('ugo-carlist',JSON.stringify(cartList.value))
   }
   
 
@@ -70,7 +79,9 @@ export const useCartStore = defineStore('cart',() => {
     cartListTotal,
     setCartList,
     updateCartList,
-    updateCountCartList
+    updateCountCartList,
+    setStorage,
+    delCartList
   }
 },{
   persist: {

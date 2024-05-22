@@ -3,6 +3,7 @@ import { useCartStore } from '../../stores';
 import {onMounted, ref} from 'vue'
 import {onShow} from '@dcloudio/uni-app'
 import myGoods from '../../components/myGoods/myGoods.vue';
+import myAddress from '../../components/myAddress/myAddress.vue';
 const cartStore = useCartStore()
 
 const radioChangeHandler = (e) => {
@@ -15,6 +16,20 @@ const countChange = (e) => {
   cartStore.updateCountCartList(e)
 }
 
+const options = ref([
+  {
+    text: '删除',
+    style: {
+      backgroundColor: '#c00000'
+    }
+  }
+])
+
+const bindClick = (item) => {
+  console.log(1)
+  cartStore.delCartList(item.goods_id)
+}
+
 onMounted(() => {
   cartStore.setCartList()
 })
@@ -24,14 +39,22 @@ onMounted(() => {
 
 
 <template>
+  <view class="cart-address">
+    <myAddress></myAddress>
+  </view>
   <view class="cart-title">
     <uni-icons type="shop" size="18"></uni-icons>
     <text class="cart-title-text">购物车</text>
   </view>
   
-  <block v-for="(item,index) in cartStore.cartList" :key="index" >
-    <my-goods :goods="item" :showRadio="true" @radio-change="radioChangeHandler" @countChange="countChange"></my-goods>
-  </block>
+  <uni-swipe-action>
+     <block v-for="(item,index) in cartStore.cartList" :key="index" >
+    <uni-swipe-action-item :right-options="options" @click="bindClick(item)">
+        <my-goods :goods="item" :showRadio="true" @radio-change="radioChangeHandler" @countChange="countChange"></my-goods>
+    </uni-swipe-action-item>
+    </block>
+  </uni-swipe-action>
+ 
 </template>
 
 <style lang="scss">

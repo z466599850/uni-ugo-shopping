@@ -32,20 +32,26 @@ const handleChangeNumber = (value,goods) => {
   })
 }
 
+const gotoDetail = (id) => {
+  uni.navigateTo({
+    url: `/subpkg/goods_detail/goods_detail?goods_id=${id}`
+  })
+}
+
 </script>
 
 <template>
   <view class="goods-item">
     <view class="goods-left-item">
       <radio @click="onRadioChange(goods)" :checked="goods.goods_state === 1" color="#c00000" v-if="showRadio"></radio>
-      <image class="goods-pic" :src="goods.goods_small_logo || defaultPic" mode=""></image>
+      <image class="goods-pic" :src="goods.goods_small_logo || defaultPic" @click="gotoDetail(goods.goods_id)"></image>
     </view>
-    <view class="goods-right-item" > 
-      <view class="goods-name">
+    <view class="goods-right-item"> 
+      <view class="goods-name" @click="gotoDetail(goods.goods_id)">
         {{goods.goods_name}}
       </view>
       <view class="goods-info-box">
-        <view class="goods-price">
+        <view class="goods-price" @click="gotoDetail(goods.goods_id)">
           ￥{{ goods.goods_price.toFixed(2) }}
         </view>
         <uni-number-box v-if="showRadio" v-model="goods.goods_count" :min="1" :max="999999999" @change="handleChangeNumber($event,goods)"></uni-number-box>
@@ -60,6 +66,9 @@ const handleChangeNumber = (value,goods) => {
   display: flex;
   padding: 20rpx 10rpx;
   border: 2rpx solid #f0f0f0;
+  width: 750rpx;
+  box-sizing: border-box;
+  
   .goods-left-item {
     margin-right: 10rpx;
     display: flex;
@@ -76,7 +85,8 @@ const handleChangeNumber = (value,goods) => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+    width: 100%;
+
     .goods-name {
       font-size: 26rpx;
     }
