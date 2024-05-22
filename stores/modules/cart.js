@@ -8,8 +8,11 @@ export const useCartStore = defineStore('cart',() => {
   const addCartList = (value) => {
     const item = cartList.value.find(item => item.goods_id === value.goods_id)
     if(item) {
-      item.goods_number++
+      item.goods_count++
     }else {
+      if(!value.goods_count) {
+        value.goods_count = 1
+      }
       cartList.value.push(value)
     }
 
@@ -24,11 +27,11 @@ export const useCartStore = defineStore('cart',() => {
   }
   
   const cartListTotal = computed(() => {
-    return cartList.value.reduce((total,item) => total + item.goods_number, 0)
+    return cartList.value.reduce((total,item) => total + item.goods_count, 0)
   })
   
   const cartListPriceTotal = computed(() => {
-    return cartList.value.reduce((total,item) => total + (item.goods_price * item.goods_number), 0).toFixed(2)
+    return cartList.value.reduce((total,item) => total + (item.goods_price * item.goods.count), 0).toFixed(2)
   })
   
   const updateCartList = (value) => {
@@ -45,7 +48,7 @@ export const useCartStore = defineStore('cart',() => {
     const item = cartList.value.find(item => item.goods_id === value.goodsId)
     
     if(item) {
-      item.goods_number = value.goodsNumber
+      item.goods_count = value.goodsNumber
       
       uni.setStorageSync('ugo-carlist',JSON.stringify(cartList.value))
     }

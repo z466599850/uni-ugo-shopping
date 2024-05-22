@@ -26,10 +26,10 @@ const onRadioChange = (goods) => {
 const handleChangeNumber = (value,goods) => {
   console.log('看看我触发了吗')
   console.log(value,goods)
-  // emit('countChange',{
-  //   goodsId: goods.goods_id,
-  //   goodsNumber: goods.goods_number
-  // })
+  emit('countChange',{
+    goodsId: goods.goods_id,
+    goodsNumber: value
+  })
 }
 
 </script>
@@ -48,7 +48,7 @@ const handleChangeNumber = (value,goods) => {
         <view class="goods-price">
           ￥{{ goods.goods_price.toFixed(2) }}
         </view>
-        <uni-number-box v-if="showRadio" v-model="goods.goods_number" :min="1" :max="999999999" @change="handleChangeNumber"></uni-number-box>
+        <uni-number-box v-if="showRadio" v-model="goods.goods_count" :min="1" :max="999999999" @change="handleChangeNumber($event,goods)"></uni-number-box>
       </view>
     </view>
   </view>

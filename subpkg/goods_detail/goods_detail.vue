@@ -40,7 +40,6 @@ const getGoodsList = async (id) => {
   console.log(data)
   if(!data.meta.status === 200) return uni.$showMsg()
   data.message.goods_introduce = data.message.goods_introduce.replace(/<img /g, '<img style="display:block;" ').replace(/webp/g, 'jpg')
-  data.message.count = 1
   goodsInfo.value = data.message
 }
 
