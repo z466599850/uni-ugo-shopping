@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user',() => {
   const userInfo = ref({})
   const address = ref({})
   
+  
   const setUserInfo = (value) => {
     userInfo.value = value
     setUserInfoStorage()

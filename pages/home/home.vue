@@ -102,8 +102,10 @@ onMounted(()=>{
 
 <style lang="scss">
 .search-box {
+  // 吸顶
   position: sticky;
   top: 0;
+  // 提高层级 防止被覆盖
   z-index: 999;
   
 }
